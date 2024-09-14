@@ -21,8 +21,8 @@ jobs:
           API_TOKEN_GITHUB: ${{ secrets.AM_GITHUB_KEY }}
         with:
           source-directory: 'output'
-          destination-github-username: phnml1
-          destination-repository-name: AmorGakco-Frontend
+          destination-github-username: yoon
+          destination-repository-name: AmorGakco
           user-email: ${{ secrets.AM_ACCOUNT_EMAIL }}
           commit-message: ${{ github.event.commits[0].message }}
           target-branch: develop
