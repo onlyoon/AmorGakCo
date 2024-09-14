@@ -1,28 +1,28 @@
-"use client"
+"use client";
 // src/app/refresh/page.tsx
 
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
 import { useState } from 'react';
-// import { useRouter } from 'next/router';
 
 const RefreshTokenPage = () => {
-  // const router = useRouter();
   const [message, setMessage] = useState('');
 
   const refreshTokenMutation = useMutation({
     mutationFn: async () => {
-      const response = await axios.post(
-        'https://amorgakco.store/tokens', // 요청을 보낼 서버의 URL
-        {}, // POST 요청 본문이 비어있음, 리프레시 토큰은 쿠키로 전달됨
-        {
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded', // 요청 타입
-          },
-          withCredentials: true, // 쿠키를 포함해서 요청을 보냄
-        }
-      );
-      return response.data;
+      const response = await fetch('https://amorgakco.store/tokens', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded', // 요청 타입
+        },
+        credentials: 'include', // 쿠키를 포함해서 요청을 보냄
+      });
+
+      if (!response.ok) {
+        throw new Error('토큰 재발급 실패');
+      }
+
+      const data = await response.json();
+      return data;
     },
     onSuccess: (data) => {
       // 성공적으로 토큰을 재발급받았을 때 처리
