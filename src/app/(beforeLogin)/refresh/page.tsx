@@ -39,14 +39,20 @@ const RefreshTokenPage = () => {
     refreshTokenMutation.mutate();
   };
 
+  const isLoading = refreshTokenMutation.status === 'pending';
+  const isError = refreshTokenMutation.status === 'error';
+  const isSuccess = refreshTokenMutation.status === 'success';
+
   return (
     <div>
       <h1>리프레시 토큰 재발급</h1>
-      <button onClick={handleRefresh} disabled={refreshTokenMutation.isLoading}>
+      <button onClick={handleRefresh} disabled={isLoading}>
         토큰 재발급 요청
       </button>
-      {refreshTokenMutation.isLoading && <p>요청 중...</p>}
-      {message && <p>{message}</p>}
+      {isLoading && <p>요청 중...</p>}
+      {isSuccess && <p>토큰이 재발급되었습니다.</p>}
+      {isError && <p>토큰 재발급에 실패했습니다.</p>}
+      {message && !isLoading && !isError && !isSuccess && <p>{message}</p>}
     </div>
   );
 };
